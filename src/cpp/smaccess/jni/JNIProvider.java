@@ -19,4 +19,6 @@ public class JNIProvider {
 		System.out.println("Calling JNI function\n.Out="+jniProvider.generateToken(data,tokenVal));
 	}
 	private native int generateToken(String[] data, String[] tokenVal);
+	private native String generateToken(String data, String initKey);
+	private native void initConfig();
 }

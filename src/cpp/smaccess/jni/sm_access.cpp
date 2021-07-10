@@ -6,12 +6,15 @@
 #include <boost/interprocess/containers/map.hpp>
 #include <boost/interprocess/allocators/allocator.hpp>
 #include "JNIProvider.h"
+#include <atomic>
 using namespace boost::interprocess;
 typedef int KeyType;
 typedef float MappedType;
 typedef std::pair<const int, float> ValueType;
 typedef allocator<ValueType, managed_shared_memory::segment_manager> ShmemAllocator;
 typedef map<KeyType,MappedType,std::less<KeyType>, ShmemAllocator> ShmMap;
+std::atomic<bool> shMemInitialized(false);
+/*
 int main() {
 	using namespace boost::interprocess;
 	try {
@@ -43,14 +46,18 @@ int main() {
 	}
 	return 0;
 }
-bool accessedSHM=false;
+*/
 offset_ptr<ShmMap> sharedMemoryMap;
-void fetch_sharedmemory_map(){
-	if(sharedMemoryMap!=NULL){
-		return;
-	}
+/*
+ * Class:     JNIProvider
+ * Method:    initConfig
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_JNIProvider_initConfig
+  (JNIEnv *env, jobject thisObject) {
+	if(!shMemInitialized.load()) {
 	    try {
-	    		printf("Opening a memory segment for shared memory...\n");
+	    	printf("Opening a memory segment for shared memory...\n");
 			//Shared memory front-end that is able to construct objects
 			//associated with a c-string.Erase previous shared memory with the name
 			//to be used and create the memory segment at the specified address and intialize resources
@@ -59,11 +66,13 @@ void fetch_sharedmemory_map(){
 			printf("accessing a shared memory map\n");
 			sharedMemoryMap=segment.find<ShmMap>("SLT_MAP").first;
 		} catch(std::exception &e){
-			printf(" error occcured while fetching the shared memory= %s", e.what());
+			printf("error occcured while fetching the shared memory= %s", e.what());
 		}
-		return;
-																							       
-}
+		//Now shared memory is intialized, we need to set the atomic variable to true
+		shMemInitialized = true;
+	}
+	return;	
+  }
 
 /* Class:     JNIProvider
  * Method:    generateToken
@@ -72,13 +81,16 @@ void fetch_sharedmemory_map(){
  */
  JNIEXPORT jint JNICALL Java_JNIProvider_generateToken
    (JNIEnv *env, jobject thisObject, jobjectArray dataStringArray, jobjectArray tokenStringArray){
+	if(sharedMemoryMap==NULL) {
+		printf(" error: tokenizer has been called without initializing the configs...")
+		return 0;
+	}
 	int datasize = env->GetArrayLength(dataStringArray);
 	int tokenSize = env->GetArrayLength(tokenStringArray);
 	if(datasize!=tokenSize){
 	  	printf("Both the datastring array and token string array should be of same size\n");
 		return 0;
 	}
-	fetch_sharedmemory_map();
 	for (int i=0; i < datasize; ++i) 
 	{
 		    jstring stringJNI =(jstring)env->GetObjectArrayElement(dataStringArray, i);
@@ -90,4 +102,17 @@ void fetch_sharedmemory_map(){
 	return 1;
  }
 
+/*
+ * Class:     JNIProvider
+ * Method:    generateToken
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_JNIProvider_generateToken__Ljava_lang_String_2Ljava_lang_String_2
+  (JNIEnv *env, jobject thisObject, jstring data, jstring sessionKey) {
+	  if(sharedMemoryMap==NULL) {
+		printf(" error: tokenizer has been called without initializing the configs...")
+		return NULL;
+	}
+	
+  }
 

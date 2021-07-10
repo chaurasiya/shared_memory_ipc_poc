@@ -12,8 +12,24 @@ extern "C" {
  * Method:    generateToken
  * Signature: ([Ljava/lang/String;[Ljava/lang/String;)I
  */
-JNIEXPORT jint JNICALL Java_JNIProvider_generateToken
+JNIEXPORT jint JNICALL Java_JNIProvider_generateToken___3Ljava_lang_String_2_3Ljava_lang_String_2
   (JNIEnv *, jobject, jobjectArray, jobjectArray);
+
+/*
+ * Class:     JNIProvider
+ * Method:    generateToken
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_JNIProvider_generateToken__Ljava_lang_String_2Ljava_lang_String_2
+  (JNIEnv *, jobject, jstring, jstring);
+
+/*
+ * Class:     JNIProvider
+ * Method:    initConfig
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_JNIProvider_initConfig
+  (JNIEnv *, jobject);
 
 #ifdef __cplusplus
 }
