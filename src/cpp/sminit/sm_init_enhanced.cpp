@@ -5,7 +5,7 @@ using std::endl;
 #include <fstream>
 using std::ifstream;
 #include <cstdlib> 
-#include "shm_generic_def.h"
+#include "src/cpp/shared/shm_generic_def.h"
 
 
 void fillShareMemoryMapWithSLTs(Shared::Map *myshmMap, std::string file_name,const Shared::Allocator& alloc) {

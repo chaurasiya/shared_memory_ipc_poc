@@ -13,10 +13,9 @@ public class JNIProvider {
 	}
 	public static void main(String[] args){
 		JNIProvider jniProvider = new JNIProvider();
-		String[] data = new String[1];
-		String[] tokenVal = new String[1];
-		data[0]="abhishek";
-		System.out.println("Calling JNI function\n.Out="+jniProvider.generateToken(data,tokenVal));
+		String data="abhishek";
+		jniProvider.initConfig();
+		System.out.println("Orignal="+data+", Token="+jniProvider.generateToken(data, null));
 	}
 	private native int generateToken(String[] data, String[] tokenVal);
 	private native String generateToken(String data, String initKey);
