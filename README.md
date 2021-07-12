@@ -14,7 +14,7 @@ java -cp . -Djava.library.path=/home/abhi/Desktop/shared_memory_ipc_poc/src/cpp/
 ####END####
 
 
-
+g++ -I ../../../plugins/boost_1_75_0/ ./sm_init_enhanced.cpp -lpthread -lrt
 
 g++ -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux sm_access.cpp -I ${BASE_PROJECT_LOCATION}/plugins/boost_1_75_0/ -lpthread -lrt 
 ```
