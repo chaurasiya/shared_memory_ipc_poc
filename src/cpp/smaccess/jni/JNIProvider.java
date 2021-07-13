@@ -14,10 +14,10 @@ public class JNIProvider {
 	public static void main(String[] args){
 		JNIProvider jniProvider = new JNIProvider();
 		String data="abhishek";
-		jniProvider.initConfig();
+
 		System.out.println("Orignal="+data+", Token="+jniProvider.generateToken(data, null));
+		System.out.println("Token=MBcDc0Jk"+ "Token="+jniProvider.getOriginal(new String("MBcDc0Jk"), null));
 	}
-	private native int generateToken(String[] data, String[] tokenVal);
 	private native String generateToken(String data, String initKey);
-	private native void initConfig();
+	private native String getOriginal(String token, String initKey);
 }

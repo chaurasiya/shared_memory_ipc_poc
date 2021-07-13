@@ -10,14 +10,6 @@ extern "C" {
 /*
  * Class:     JNIProvider
  * Method:    generateToken
- * Signature: ([Ljava/lang/String;[Ljava/lang/String;)I
- */
-JNIEXPORT jint JNICALL Java_JNIProvider_generateToken___3Ljava_lang_String_2_3Ljava_lang_String_2
-  (JNIEnv *, jobject, jobjectArray, jobjectArray);
-
-/*
- * Class:     JNIProvider
- * Method:    generateToken
  * Signature: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_JNIProvider_generateToken__Ljava_lang_String_2Ljava_lang_String_2
@@ -25,11 +17,11 @@ JNIEXPORT jstring JNICALL Java_JNIProvider_generateToken__Ljava_lang_String_2Lja
 
 /*
  * Class:     JNIProvider
- * Method:    initConfig
- * Signature: ()V
+ * Method:    getOriginal
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
  */
-JNIEXPORT void JNICALL Java_JNIProvider_initConfig
-  (JNIEnv *, jobject);
+JNIEXPORT jstring JNICALL Java_JNIProvider_getOriginal
+  (JNIEnv *, jobject, jstring, jstring);
 
 #ifdef __cplusplus
 }
