@@ -2,7 +2,7 @@
 ```
 export BASE_PROJECT_LOCATION=${BASE_PROJECT_LOCATION:-"/home/abhi/Desktop/shared_memory_ipc_poc"}
 cd ${BASE_PROJECT_LOCATION}/src/cpp/
-
+javac -h . JNIProvider.java
 
 ####NEW COMMAND START####
 g++ -c -fPIC -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux sm_access.cpp -I ${BASE_PROJECT_LOCATION}/plugins/boost_1_75_0/ -o sm_access.o -lpthread -lrt -lstdc++
